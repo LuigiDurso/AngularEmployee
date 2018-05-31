@@ -1,0 +1,30 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <input class="form-control" id="myFilter" type="text" placeholder="Search.." #searchBar (keyup)="0" value="">
+    <br>
+    <div class="table-responsive ">
+      <table class="table table-striped " >
+        <tr>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Country</th>
+          <th>BirthDate</th>
+          <th>Edit</th>
+        </tr>
+        <tbody id="employeesTable">
+        <tr *ngFor="let emp of (employees | employeeFilter: searchBar.value )">
+          <td>{{emp.name}}</td>
+          <td>{{emp.surname}}</td>
+          <td>{{emp.country}}</td>
+          <td>{{emp.birthDate}}</td>
+          <td>
+            <a routerLink="" class="btn btn-default">Edit</a>
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-danger deleteBtn" value="/delete/{{emp.id}}">Delete</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
