@@ -3,6 +3,7 @@ import {Employee} from '../Employee';
 import {EmployeeService} from '../employee.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
+import {NotificationsService} from 'angular2-notifications';
 
 @Component({
   selector: 'app-employee-form',
@@ -15,6 +16,7 @@ export class EmployeeFormComponent implements OnInit {
   employeeForm: FormGroup;
 
   constructor(
+    private notificationService: NotificationsService,
     private route: ActivatedRoute,
     private employeeService: EmployeeService,
     private formBuilder: FormBuilder) {
@@ -45,12 +47,12 @@ export class EmployeeFormComponent implements OnInit {
     this.employee = this.prepareSaveEmployee();
     this.employeeService.saveEmployee(this.employee).subscribe();
     this.rebuildForm();
+    this.notificationService.success('Utente inserito');
   }
 
   prepareSaveEmployee(): Employee {
     const formModel = this.employeeForm.value;
-    const saveEmployee: Employee = Object.assign({}, formModel);
-    return saveEmployee;
+    return Object.assign({}, formModel);
   }
 
   rebuildForm() {

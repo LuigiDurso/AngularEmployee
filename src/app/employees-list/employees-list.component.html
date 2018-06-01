@@ -18,7 +18,7 @@
           <td>{{emp.country}}</td>
           <td>{{emp.birthDate}}</td>
           <td>
-            <a routerLink="" class="btn btn-default">Edit</a>
+            <a routerLink="newEmployee/{{emp.id}}" class="btn btn-default">Edit</a>
             <!-- Trigger the modal with a button -->
             <button type="button" class="btn btn-danger deleteBtn" value="/delete/{{emp.id}}">Delete</button>
           </td>
