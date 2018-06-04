@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Employee} from '../Employee';
 import {EmployeeService} from '../employee.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {NotificationsService} from 'angular2-notifications';
+import {Skill} from '../Skill';
+import {SkillService} from '../skill.service';
 
 @Component({
   selector: 'app-employee-form',
@@ -14,10 +16,12 @@ export class EmployeeFormComponent implements OnInit {
 
   employee: Employee;
   employeeForm: FormGroup;
+  skills: Skill[];
 
   constructor(
     private route: ActivatedRoute,
     private employeeService: EmployeeService,
+    private skillService: SkillService,
     private formBuilder: FormBuilder) {
   }
 
@@ -27,9 +31,13 @@ export class EmployeeFormComponent implements OnInit {
     if (id !== -1) {
       this.employeeService.getEmployeeByID(id).subscribe(emp => {
         this.employee = emp;
-        this.compileForm();
-      } );
+        this.rebuildForm();
+      });
     }
+  }
+
+  getSkills() {
+    this.skillService.getSkills().subscribe(skills => this.skills = skills);
   }
 
   createForm() {
@@ -39,6 +47,7 @@ export class EmployeeFormComponent implements OnInit {
       surname: ['', Validators.required],
       country: '',
       birthDate: '',
+      skillList: this.formBuilder.array([]),
     });
   }
 
@@ -50,15 +59,45 @@ export class EmployeeFormComponent implements OnInit {
 
   prepareSaveEmployee(): Employee {
     const formModel = this.employeeForm.value;
-    return Object.assign({}, formModel);
+
+    const skillsList: Skill[] = formModel.skillList.map((skill: Skill) => Object.assign({}, skill));
+
+    const saveEmployee: Employee = {
+      id: this.employee.id,
+      name: formModel.name,
+      surname: formModel.surname,
+      country: formModel.country,
+      birthDate: formModel.birthDate,
+      skillList: skillsList
+    };
+    console.log('Salvo utente: ' + saveEmployee);
+    return saveEmployee;
   }
 
   rebuildForm() {
-    this.employeeForm.reset(this.employee);
+    this.employeeForm.reset({
+      id: this.employee.id,
+      name: this.employee.name,
+      surname: this.employee.surname,
+      country: this.employee.country,
+      birthDate: this.employee.birthDate,
+    });
+    console.log(this.employee);
+    this.setSkills(this.employee.skillList);
   }
 
-  compileForm() {
-    this.employeeForm.setValue(this.employee);
+  setSkills(skills: Skill[]) {
+    const skillsFGs = skills.map(skill => this.formBuilder.group(skill));
+    const skillFormArray = this.formBuilder.array(skillsFGs);
+    this.employeeForm.setControl('skillList', skillFormArray);
+  }
+
+  getSkillList(): FormArray {
+    return this.employeeForm.get('skillList') as FormArray;
+  }
+
+  addSkill(skill: Skill) {
+    this.getSkillList().push(this.formBuilder.group(skill));
   }
 
 }

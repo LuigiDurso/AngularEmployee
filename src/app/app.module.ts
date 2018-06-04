@@ -15,6 +15,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from '@angular/material/dialog';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { DeleteDialogContentComponent } from './delete-dialog-content/delete-dialog-content.component';
+import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material';
+import {MatSelectModule} from '@angular/material/select';
 
 const appRoutes: Routes = [
   { path: '', component: EmployeesListComponent },
@@ -38,6 +40,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    MatSelectModule,
     SimpleNotificationsModule.forRoot({
       timeOut: 3000,
       showProgressBar: true,
@@ -49,7 +52,9 @@ const appRoutes: Routes = [
       appRoutes
     )
   ],
-  providers: [],
+  providers: [
+    {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
+  ],
   bootstrap: [AppComponent],
   entryComponents: [DeleteDialogContentComponent]
 })

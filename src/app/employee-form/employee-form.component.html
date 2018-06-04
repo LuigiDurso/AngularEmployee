@@ -50,6 +50,17 @@
       </div>
     </div>
 
+    <div formArrayName="skillList" class="well well-lg">
+      <label class="col-md-3 control-lable" >Skills</label>
+      <div *ngFor="let skill of employeeForm.controls.skillList.controls; let i=index" [formGroupName]="i" >
+        <div style="margin-left: 1em;">
+          <div class="form-group">
+            <input class="btn btn-default" formControlName="skill" disabled>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <input type="submit" [disabled]="(employeeForm.pristine || employeeForm.invalid)" class="btn btn-primary btn-sm"/> or
     <a routerLink="">Cancel</a>
   </form>
