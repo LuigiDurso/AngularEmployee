@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Employee} from '../Employee';
 import {EmployeeService} from '../employee.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {NotificationsService} from 'angular2-notifications';
 
@@ -16,7 +16,6 @@ export class EmployeeFormComponent implements OnInit {
   employeeForm: FormGroup;
 
   constructor(
-    private notificationService: NotificationsService,
     private route: ActivatedRoute,
     private employeeService: EmployeeService,
     private formBuilder: FormBuilder) {
@@ -35,9 +34,9 @@ export class EmployeeFormComponent implements OnInit {
 
   createForm() {
     this.employeeForm = this.formBuilder.group({
-      id: '',
-      name: '',
-      surname: '',
+      id: [''],
+      name: ['', Validators.required],
+      surname: ['', Validators.required],
       country: '',
       birthDate: '',
     });
@@ -47,7 +46,6 @@ export class EmployeeFormComponent implements OnInit {
     this.employee = this.prepareSaveEmployee();
     this.employeeService.saveEmployee(this.employee).subscribe();
     this.rebuildForm();
-    this.notificationService.success('Utente inserito');
   }
 
   prepareSaveEmployee(): Employee {

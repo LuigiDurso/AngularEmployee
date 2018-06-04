@@ -12,6 +12,9 @@ import { EmployeeFilterPipe } from './employee-filter.pipe';
 import {ReactiveFormsModule} from '@angular/forms';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from '@angular/material/dialog';
+import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { DeleteDialogContentComponent } from './delete-dialog-content/delete-dialog-content.component';
 
 const appRoutes: Routes = [
   { path: '', component: EmployeesListComponent },
@@ -25,13 +28,16 @@ const appRoutes: Routes = [
     PageNotFoundComponent,
     EmployeesListComponent,
     EmployeeFilterPipe,
-    EmployeeFormComponent
+    EmployeeFormComponent,
+    DeleteDialogComponent,
+    DeleteDialogContentComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MatDialogModule,
     SimpleNotificationsModule.forRoot({
       timeOut: 3000,
       showProgressBar: true,
@@ -44,6 +50,7 @@ const appRoutes: Routes = [
     )
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DeleteDialogContentComponent]
 })
 export class AppModule { }

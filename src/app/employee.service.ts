@@ -3,7 +3,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {Employee} from './Employee';
 import {NotificationsService} from 'angular2-notifications';
-import {catchError} from 'rxjs/operators';
+import {catchError, tap} from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -37,6 +37,7 @@ export class EmployeeService {
   saveEmployee(employee: Employee): Observable<Employee> {
     return this.http.post<Employee>(this.baseURL + 'newEmployee', employee, httpOptions)
       .pipe(
+        tap(_ => this.notificationService.success('Utente inserito')),
         catchError( (err) => {
           this.notificationService.error('Errore', 'Utente non salvato ');
           return of(err as Employee);
@@ -51,6 +52,18 @@ export class EmployeeService {
         catchError( (err) => {
           this.notificationService.error('Errore', 'Utente non trovato ');
           return of(err as Employee);
+        })
+      );
+  }
+
+  /** Delete employee by id */
+  deleteEmployeeByID(id: number) {
+    return this.http.delete(this.baseURL + 'delete/' + id)
+      .pipe(
+        tap(_ => this.notificationService.success('Utente eliminato')),
+        catchError( (err) => {
+          this.notificationService.error('Errore', 'Utente non trovato ');
+          return of(err);
         })
       );
   }

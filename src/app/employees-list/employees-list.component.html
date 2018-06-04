@@ -20,7 +20,7 @@
           <td>
             <a routerLink="newEmployee/{{emp.id}}" class="btn btn-default">Edit</a>
             <!-- Trigger the modal with a button -->
-            <button type="button" class="btn btn-danger deleteBtn" value="/delete/{{emp.id}}">Delete</button>
+            <app-delete-dialog [employeeID]=emp.id (confirmDelete)="onDeleteConfirm($event)"></app-delete-dialog>
           </td>
         </tr>
         </tbody>
