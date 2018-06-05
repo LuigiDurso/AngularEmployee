@@ -1,12 +1,10 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Employee} from '../Employee';
 import {EmployeeService} from '../employee.service';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
-import {NotificationsService} from 'angular2-notifications';
 import {Skill} from '../Skill';
 import {SkillService} from '../skill.service';
-import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-employee-form',
