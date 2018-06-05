@@ -1,0 +1,80 @@
+<div class="generic-container">
+  <div class="well lead">User Registration Form</div>
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="form-horizontal" >
+
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3 control-lable" for="firstName">First Name*</label>
+        <div class="col-md-7">
+          <input formControlName="name" id="firstName" class="form-control input-sm"/>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="employeeForm.controls['name'].invalid &&
+              (employeeForm.controls['name'].dirty || employeeForm.controls['name'].touched)"
+         class="alert alert-danger">
+      Name is required.
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3 control-lable" for="surname">Last Name*</label>
+        <div class="col-md-7">
+          <input formControlName="surname" id="surname" class="form-control input-sm" />
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="employeeForm.controls['surname'].invalid &&
+              (employeeForm.controls['surname'].dirty || employeeForm.controls['surname'].touched)"
+         class="alert alert-danger">
+      Surname is required.
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3 control-lable" for="birthDate">BirthDate</label>
+        <div class="col-md-7">
+          <input type="date" formControlName="birthDate" id="birthDate" class="form-control input-sm" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3 control-lable" for="country">Country</label>
+        <div class="col-md-7">
+          <input formControlName="country" id="country" class="form-control input-sm" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="col-md-3 control-lable" for="country">Country</label>
+        <div class="col-md-7">
+          <select class="form-control" #newSkillSelect >
+            <option *ngFor="let sk of skills" [value]="sk.skill">
+              {{ sk.skill }}
+            </option>
+          </select>
+          <button class="btn btn-default" type="button" (click)="addSkill(newSkillSelect.value)">Add skill</button>
+        </div>
+      </div>
+    </div>
+
+    <div formArrayName="skillArray" class="well well-lg">
+      <div *ngFor="let skill of employeeForm.controls.skillArray.controls; let i=index" [formGroupName]="i">
+        <div class="form-group">
+          <label class="center-block">Skill:
+            <input class="form-control" formControlName="skill" disabled/>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <input type="submit" [disabled]="(employeeForm.pristine || employeeForm.invalid)" class="btn btn-primary btn-sm"/> or
+    <a routerLink="">Cancel</a>
+  </form>
+</div>

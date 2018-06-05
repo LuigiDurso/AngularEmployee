@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Employee} from '../Employee';
 import {EmployeeService} from '../employee.service';
+import {NotificationsService} from 'angular2-notifications';
 
 @Component({
   selector: 'app-employees-list',
@@ -12,8 +13,9 @@ export class EmployeesListComponent implements OnInit {
   employees: Array<Employee>;
 
   constructor(
-    private employeeService: EmployeeService
-  ) { }
+    private employeeService: EmployeeService,
+  ) {
+  }
 
   ngOnInit() {
     this.employees = [];
@@ -21,6 +23,11 @@ export class EmployeesListComponent implements OnInit {
   }
 
   getEmployees(): void {
-    this.employeeService.getEmployees().subscribe(employees => this.employees = employees );
+    this.employeeService.getEmployees().subscribe(employees => this.employees = employees);
+  }
+
+  onDeleteConfirm(employeesID: number): void {
+    this.employeeService.deleteEmployeeByID(employeesID).subscribe();
+    this.getEmployees();
   }
 }
