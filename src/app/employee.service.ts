@@ -35,6 +35,7 @@ export class EmployeeService {
 
   /** POST new employee to server */
   saveEmployee(employee: Employee): Observable<Employee> {
+    console.log(employee);
     return this.http.post<Employee>(this.baseURL + 'newEmployee', employee, httpOptions)
       .pipe(
         tap(_ => this.notificationService.success('Utente inserito')),
