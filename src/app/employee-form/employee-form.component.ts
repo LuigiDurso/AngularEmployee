@@ -13,7 +13,7 @@ import {SkillService} from '../skill.service';
 })
 export class EmployeeFormComponent implements OnInit {
 
-  employee: Employee;
+  employee: Employee = new Employee();
   employeeForm: FormGroup;
   skills: Skill[];
 
